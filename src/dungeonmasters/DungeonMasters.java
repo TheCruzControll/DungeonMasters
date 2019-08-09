@@ -11,6 +11,7 @@ public class DungeonMasters extends PApplet {
     float playerY = 352;
     float enemySpeed = 1f;
     float ammoSpeed;
+    float xPos,yPos;
     float bulletSpeed = 5;
     float spawnRate = 300;
     boolean left, right, up, down;
@@ -23,6 +24,7 @@ public class DungeonMasters extends PApplet {
     int bulletFrame = 1;
     int score = 0;
     int highScore = 0;
+    int speed;
     String character = "";
     String ammo;
     ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -61,6 +63,9 @@ public class DungeonMasters extends PApplet {
     public void setup() {
         loadEnemyAnimations();
         loadExplosionAnimation();
+        xPos = 0;
+        yPos = 0;
+        speed = 2;
 
         backgroundImg = loadImage("Images/DungeonBackground.png");
         startMenuImg = loadImage("Images/StoneStartMenu.png");
@@ -118,8 +123,11 @@ public class DungeonMasters extends PApplet {
                         Enemy en = enemies.get(i);
                         if (en.isDead == true) {
                             en.explosionFrame++;
+                            shake();
                             if (en.explosionFrame == 5) {
                                 enemies.remove(i);
+                                xPos = 0;
+                                yPos = 0;
                             }
                         }
                     }
@@ -197,7 +205,6 @@ public class DungeonMasters extends PApplet {
         image(rulesButton, width/2, height/2 - 77);
         image(rulesButton, width/2, height/2 - 12);
         image(rulesButton, width/2, height/2 + 52);
-        image(exitButton, width/2, height/2 + 130);
         textFont(menuFont);
         fill(130, 0, 0);
         textAlign(CENTER);
@@ -235,6 +242,7 @@ public class DungeonMasters extends PApplet {
         background(250);
         imageMode(CORNER);
         image(backgroundImg, 0, 0);
+        image(backgroundImg, xPos, yPos);
     }
 
     public void drawPlayer() {
@@ -367,7 +375,7 @@ public class DungeonMasters extends PApplet {
                             3.2f,
                             10
                     );
-                    currentState = GameState.START;
+                    currentState = GameState.RUNNING;
                 }
                 else if(mouseX < 356 && mouseX > 156 && mouseY < 365 && mouseY > 315){
                     loadCharacterStats(
@@ -378,7 +386,7 @@ public class DungeonMasters extends PApplet {
                             4.5f,
                             4
                     );
-                    currentState = GameState.START;
+                    currentState = GameState.RUNNING;
                 }
                 else if(mouseX < 356 && mouseX > 156 && mouseY < 439 && mouseY > 389){
                     loadCharacterStats(
@@ -389,10 +397,7 @@ public class DungeonMasters extends PApplet {
                             5.3f,
                             -1
                     );
-                    currentState = GameState.START;
-                }
-                else if(mouseX > width/2 - 50 && mouseX < width/2 + 50 && mouseY > height/2 + 110 && mouseY < height/2 + 150){
-                    currentState = GameState.START;
+                    currentState = GameState.RUNNING;
                 }
                 loadCharacter();
                 break;
@@ -486,6 +491,11 @@ public class DungeonMasters extends PApplet {
                 bullets.remove(b);
             }
         }
+    }
+
+    public void shake(){
+        xPos = xPos + random(-5, 5)*speed;
+        yPos = yPos + random(-5, 5)*speed;
     }
 
     class Enemy {
