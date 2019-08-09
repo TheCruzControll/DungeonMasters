@@ -30,17 +30,7 @@ public class DungeonMasters extends PApplet {
     enum GameState {
         START, ROLE, RULES, OVER, RUNNING
     }
-    enum AmmoState{
-        ORB, NINJASTAR, AXE
-    }
-    enum CharacterState{
-        ASSASIN, MAGE, KNIGHT
-    }
-
     static GameState currentState;
-    static AmmoState currentAmmo;
-    static CharacterState currentCharacter;
-
     PFont scoreFont;
     PFont menuFont;
     PFont gameOverFont;
@@ -392,7 +382,7 @@ public class DungeonMasters extends PApplet {
                 }
                 else if(mouseX < 356 && mouseX > 156 && mouseY < 439 && mouseY > 389){
                     loadCharacterStats(
-                            "Assasin",
+                            "Assassin",
                             "NinjaStar",
                             0.8f,
                             4.0f,
